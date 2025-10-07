@@ -82,6 +82,14 @@ def compute_H3(elements_matrix, weights=None, detection_threshold=0.00):
     
     return H3, n_elements, H3_scaled
 
+def SEM_random(data, n_pt):
+    # RS-CCSEM method
+    data = pd.DataFrame(data)
+    start_pt = np.random.randint(1, len(data)+1)
+    df = pd.concat([data.iloc[start_pt-1:], data.iloc[:start_pt-1]]).reset_index(drop=True)
+    df = df.iloc[:n_pt]
+    return df
+
 def compute_N1(features, n_pt_list, Sampling_method = "CCSEM", n_clusters = 20, times = 100, weights=None):
     """BPSA(Mor)"""
     n_particles, n_features = features.shape
@@ -359,3 +367,4 @@ def cobb(args, method='percentile', sampling_method='circular', bootstrap_method
         })
     
     return records
+
